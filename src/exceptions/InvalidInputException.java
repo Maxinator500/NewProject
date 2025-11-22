@@ -1,3 +1,5 @@
+package exceptions;
+
 public class InvalidInputException extends RuntimeException {
     public InvalidInputException(String message) {
         super(message);
@@ -5,6 +7,6 @@ public class InvalidInputException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "InvalidInputException{" + getMessage() + "}";
+        return "exceptions.InvalidInputException{" + getMessage() + "}";
     }
 }

@@ -1,3 +1,9 @@
+package entities;
+
+import contracts.Identifiable;
+import contracts.Validatable;
+import validation.FieldsValidator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -85,7 +91,7 @@ public class User implements Identifiable, Validatable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "entities.User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", fullName='" + fullName + '\'' +

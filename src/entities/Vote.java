@@ -1,3 +1,5 @@
+package entities;
+
 public class Vote {
     private User user;
     private Poll poll;

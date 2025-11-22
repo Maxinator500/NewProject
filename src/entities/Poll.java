@@ -1,3 +1,9 @@
+package entities;
+
+import contracts.Identifiable;
+import contracts.Validatable;
+import validation.FieldsValidator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +30,7 @@ public class Poll implements Identifiable, Validatable {
 
     //Надо ли валидаторы?
     public void isGoodInput() {
-        //FieldsValidator.isPollValid();
+        //validation.FieldsValidator.isPollValid();
     }
 
     public void cancelPoll() {

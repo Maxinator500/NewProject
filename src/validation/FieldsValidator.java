@@ -1,3 +1,7 @@
+package validation;
+
+import exceptions.InvalidInputException;
+
 public class FieldsValidator {
     //Утилиты
     private static long counter = 0;
@@ -11,7 +15,7 @@ public class FieldsValidator {
     }
     //Конец утилит
 
-    //Валидации для сущности User
+    //Валидации для сущности entities.User
     public static void isUserValid(String mailStr, String fullName, long createdAt, long now) {
         if (!isMailValid(mailStr)) throw new InvalidInputException("Неверная почта");
         if (!isFullNameValid(fullName)) throw new InvalidInputException("Неверное имя, кол-во символов меньше 6");

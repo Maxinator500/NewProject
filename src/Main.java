@@ -1,3 +1,8 @@
+import entities.AnswerOption;
+import entities.Poll;
+import entities.User;
+import validation.FieldsValidator;
+
 public class Main {
     public static void main(String[] args) {
         User dummyUser = new User(System.currentTimeMillis(), "abab@mail.ru", "ababababababa");
