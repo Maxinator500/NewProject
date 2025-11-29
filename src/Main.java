@@ -1,25 +1,32 @@
-import entities.AnswerOption;
-import entities.Poll;
-import entities.User;
+import entities.*;
 import validation.FieldsValidator;
 
 public class Main {
     public static void main(String[] args) {
-        User dummyUser = new User(System.currentTimeMillis(), "abab@mail.ru", "ababababababa");
+       User dummyUser = new User( "111111", "abab@mail.ru");
+       User User1 = new User( "1112222", "abak@mail.ru");
+       UserService userService = new UserService();
 
-        // Создаем опросы и варианты ответов
-        Poll poll1 = new Poll(FieldsValidator.nextId(), FieldsValidator.nextId(), System.currentTimeMillis(),"Пепси или Кока-кола?");
-        poll1.addOption(new AnswerOption("Pepsi"));
-        poll1.addOption(new AnswerOption("Coke"));
+  //     userService.registrate(dummyUser);
+  //     userService.registrate(User1);
+//        userService.readUsersfromSCV();
+//
+ //     User fUSer = userService.authentificate("abab@mail.ru","111111");
+//        userService.readUsersfromSCV();
 
-        Poll poll2 = new Poll(FieldsValidator.nextId(), FieldsValidator.nextId(), System.currentTimeMillis(),"У пластиковой соломинки одно отверстие или два?");
-        poll2.addOption(new AnswerOption("1"));
-        poll2.addOption(new AnswerOption("2"));
+     //  AuthenticationMenu authenticationMenu = new AuthenticationMenu();
+     //  User currentUser = authenticationMenu.showMenu();
+        User currentUser = dummyUser;
 
-        dummyUser.addPoll(poll1);
-        dummyUser.addPoll(poll2);
+       PollService pollService = new PollService();
+       VotingService voteSrvice = new VotingService();
 
-        // Проголосвать 1 раз
-        dummyUser.vote();
+       if (currentUser != null){
+           MainMenu mainMenu = new MainMenu(currentUser,pollService,voteSrvice);
+           mainMenu.showfinishedPolls();
+            //mainMenu.show();
+       }
+
+
     }
 }

@@ -16,7 +16,7 @@ public class FieldsValidator {
     //Конец утилит
 
     //Валидации для сущности entities.User
-    public static void isUserValid(String mailStr, String fullName, long createdAt, long now) {
+    public static void isUserValid(String mailStr, String fullName, long now) {
         if (!isMailValid(mailStr)) throw new InvalidInputException("Неверная почта");
         if (!isFullNameValid(fullName)) throw new InvalidInputException("Неверное имя, кол-во символов меньше 6");
     }
@@ -27,6 +27,12 @@ public class FieldsValidator {
 
     public static boolean isFullNameValid(String fullName) {
         return fullName.length() >= 6;
+    }
+
+    public static void isPasswordValid(String fullName) {
+        if(fullName.length() < 4){
+            throw new IllegalArgumentException("Задано некорректное значение");
+        }
     }
 
     /* Фигня из домашки от 26 нояб.

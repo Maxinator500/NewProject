@@ -1,13 +1,21 @@
 package entities;
 
-public class AnswerOption {
-    private String text;
+import validation.FieldsValidator;
 
-    public AnswerOption(String text) {
-        this.text = text;
+public class AnswerOption {
+    private String value;
+    private Long id;
+
+    public AnswerOption(Long id, String value) {
+        this.value = value;
+        this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getValue() {
+        return value;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
