@@ -4,29 +4,54 @@ import contracts.Identifiable;
 import contracts.Validatable;
 import validation.FieldsValidator;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Poll implements Identifiable, Validatable {
-    final private long id, creatorId, pollId, createdAt;
+    final private long id;
+    private final long pollId;
+    private LocalDateTime createdAt;
     private String question;
     private List<AnswerOption> options;
+    private boolean active;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private String pollHash;
 
     enum StatusEnum {
         CREATED, FINISHED, CANCELLED
     }
 
-    private Poll.StatusEnum status = Poll.StatusEnum.CREATED;
+    public String getPollHash() {
+        return pollHash;
+    }
 
-    public Poll(long pollId, long creatorId, long createdAt, String question) {
-        this.id = FieldsValidator.nextId();
-        this.creatorId = creatorId;
+    public Poll(long pollId, LocalDateTime createdAt, String question, List<AnswerOption> options) {
         this.pollId = pollId;
+        this.id = FieldsValidator.nextId();
         this.createdAt = createdAt;
         this.question = question;
-        this.options = new ArrayList<>();
+        this.options = options;
+        this.active = true;
+        this.pollHash = hashPassword(question);
         isGoodInput();
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
 
     //Надо ли валидаторы?
     public void isGoodInput() {
@@ -34,11 +59,7 @@ public class Poll implements Identifiable, Validatable {
     }
 
     public void cancelPoll() {
-        this.status = Poll.StatusEnum.CANCELLED;
-    }
-
-    public boolean isFinished() {
-        return status.ordinal() == 1;
+        active = false;
     }
 
     public void addOption(AnswerOption option) {
@@ -57,15 +78,26 @@ public class Poll implements Identifiable, Validatable {
         return id;
     }
 
-    public long getCreatorId() {
-        return creatorId;
-    }
 
-    public long getPollId() {
-        return pollId;
-    }
-
-    public long getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    private String hashPassword(String question){
+        return String.valueOf(question.hashCode() * 31);
+    }
+
+    public Map<Integer, Long> showOptions() {
+        System.out.println("===" + question + "===");
+        Map<Integer, Long> optionsMap = new HashMap<>();
+        int numb = 1,temp = 0;
+        for (AnswerOption option : options) {
+            temp = numb++;
+
+            optionsMap.put(temp, option.getId());
+            System.out.println(temp + ": " + option.getValue());
+        }
+
+        return optionsMap;
     }
 }
