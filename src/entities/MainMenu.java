@@ -1,5 +1,8 @@
 package entities;
 
+import services.PollService;
+import services.VotingService;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +37,7 @@ public class MainMenu {
                 showActivePolls();
                 break;
             case "2":
-                showfinishedPolls();
+                showFinishedPolls();
                 break;
             case "3":
                 showCompletedPolls();
@@ -89,7 +92,7 @@ public class MainMenu {
 
     }
 
-    public void showfinishedPolls() {
+    public void showFinishedPolls() {
         List<Vote> usersVotes = votingService.getUserVotes(currentUser.getPasswordHash());
 
         if (usersVotes.isEmpty()) {
@@ -104,7 +107,7 @@ public class MainMenu {
         for (Vote vote : usersVotes) {
             Poll poll = pollService.findByHash(vote.getPoll().getPollHash());
 
-            if (vote.getStatus() == Vote.StatusEnum.FINISHED){
+            if (vote.getStatus().equals(VoteStatus.FINISHED)){
                 number++;
                 System.out.println(number + ": " + poll.getQuestion());
                 pollMap.put(number, poll);
@@ -150,7 +153,7 @@ public class MainMenu {
         System.out.println("Ваш выбор: "+ option.getValue());
         if (option != null) {
             Vote vote = votingService.createOrUpdateVote(currentUser, poll, option);
-            vote.setStatus(Vote.StatusEnum.FINISHED);
+            vote.setStatus(VoteStatus.FINISHED);
             System.out.println("Ваш ответ сохранен!");
         } else{
             System.out.println("Неверный выбор!");
@@ -176,7 +179,8 @@ public class MainMenu {
     }
 
     private void showStatistics(){
-
+        System.out.println("\nСТАТИСТИКА:");
+        
     }
 
 }

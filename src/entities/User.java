@@ -7,52 +7,38 @@ import validation.FieldsValidator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import lombok.*;
 
+@ToString(of = {"id", "email"})
 public class User implements Identifiable, Validatable {
-    private List<Poll> polls;
-    private List<Vote> votes;
-    final private Long id;
+    private List<Poll> polls = new ArrayList<>();
+    private List<Vote> votes = new ArrayList<>();
+
+    @Getter
+    final private long id = FieldsValidator.nextId();;
+
+    @Setter
+    @Getter
     private String email;
+
+    @Getter
+    @Setter
     private String passwordHash;
 
-    public void setPasswordHash(String passwordHash) {
+    public User(String passwordHash, String email) {
         this.passwordHash = passwordHash;
-    }
-
-    public User(String password, String email) {
-        polls = new ArrayList<>();
-        votes = new ArrayList<>();
-        this.id = FieldsValidator.nextId();
         this.email = email;
-        this.passwordHash = hashPassword(password);
-        isGoodInput();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
     }
 
     public String hashPassword(String password){
         FieldsValidator.isPasswordValid(password);
-        return String.valueOf(password.hashCode() * 31);
+        passwordHash = String.valueOf(password.hashCode() * 31);
+        return passwordHash;
     }
 
     public boolean checkPassword(String password){
         return this.passwordHash.equals(hashPassword(password));
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public long getId() {
-        return id;
-    }
-
 
     private Vote findVoteByUserAndPoll(User user, Poll poll) {
         for (Vote vote : votes) {
@@ -61,14 +47,6 @@ public class User implements Identifiable, Validatable {
             }
         }
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return "entities.User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                '}';
     }
 
     @Override

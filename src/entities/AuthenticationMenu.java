@@ -1,6 +1,7 @@
 package entities;
 
 import contracts.Validatable;
+import services.UserService;
 
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class AuthenticationMenu implements Validatable {
                 currentUser = login();
                 return currentUser;
             case "2":
-                currentUser = registrate();
+                currentUser = register();
                 return currentUser;
             case "3":
                 System.out.println("Выход!");
@@ -46,16 +47,20 @@ public class AuthenticationMenu implements Validatable {
         String password = scanner.nextLine();
 
         try {
-            User user = userService.authentificate(login.trim(),password.trim());
-            System.out.println("Вы вошли в систему!");
-            return user;
+            User user = userService.authenticate(login.trim(), password.trim());
+            if (user != null) {
+                System.out.println("Вы вошли в систему!");
+                return user;
+            }
         }catch (IllegalArgumentException e){
-            System.err.println("Пользователь не найден");
+            System.err.println("Недопустимый логин или пароль");
         }
+
+        System.out.println("Пользователь не найден");
         return null;
     }
 
-    private User registrate(){
+    private User register(){
         System.out.print("Введите логин: ");
         String login = scanner.nextLine();
 
@@ -63,8 +68,8 @@ public class AuthenticationMenu implements Validatable {
         String password = scanner.nextLine();
 
         try {
-            User user = new User(password.trim(),login.trim());
-            userService.registrate(user);
+            User user = new User(currentUser.hashPassword(password), login.trim());
+            userService.register(user);
             System.out.println("Вы зарегистрировались!");
             return user;
         }catch (IllegalArgumentException e){
